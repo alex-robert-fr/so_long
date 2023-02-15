@@ -8,6 +8,7 @@ typedef struct s_vars
 	void	*mlx;
 	void	*win;
 	void	*img;
+	int		i;
 }			t_vars;
 
 
@@ -28,10 +29,16 @@ int		move(int keycode, t_vars *vars)
 	return (0);
 }
 
-int		render_next_frame(void *zero)
+int		render_next_frame(t_vars *pacman)
 {
+	int size;
+	size = 64;
+	pacman->img = mlx_xpm_file_to_image(pacman->mlx, "./assets/pacman_test.xpm", &size, &size);
+	mlx_put_image_to_window(pacman->mlx, pacman->win, pacman->img, pacman->i, 0);
+	mlx_destroy_image(pacman->mlx, pacman->img);
 	write(1, "X", 1);
-	sleep(1);
+	usleep(10000);
+	pacman->i++;
 	return (0);
 }
 
@@ -41,16 +48,17 @@ int	main(void)
 	int		h;
 	int		l;
 
-	h = 22;
-	l = 22;
+	h = 242;
+	l = 429;
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
 		return (0);
+	vars.i = 0;
 	vars.win = mlx_new_window(vars.mlx, 500, 500, "Pacman");
-	vars.img = mlx_xpm_file_to_image(vars.mlx, "./assets/pacman.xpm", &l, &l);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
-	mlx_key_hook(vars.win, move, (void *)0);
+	vars.img = mlx_xpm_file_to_image(vars.mlx, "./assets/o_map.xpm", &l, &l);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, vars.i, 0);
+	// mlx_key_hook(vars.win, move, (void *)0);
 	mlx_hook(vars.win, 17, 0, ft_close, &vars);
-	mlx_loop_hook(vars.mlx, render_next_frame, 0);
+	// mlx_loop_hook(vars.mlx, render_next_frame, &vars);
 	mlx_loop(vars.mlx);
 }

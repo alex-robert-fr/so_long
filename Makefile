@@ -19,7 +19,7 @@ clean:
 
 fclean: clean
 	make fclean -C $(LIBFT_PATH)
-	rm $(NAME) convert_size.out
+	rm $(NAME)
 
 re: fclean all
 
@@ -28,3 +28,6 @@ run: all
 
 convert: $(LIBFT_NAME)
 	$(CC) convert_size/convert_size.c $(GNL_SRC) $(LIBFT_PATH)/$(LIBFT_NAME) -o convert_size.out -g
+
+clean_convert:
+	rm $(NAME) convert_size.out

@@ -6,7 +6,7 @@
 #    By: alrobert <alrobert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 14:23:23 by alrobert          #+#    #+#              #
-#    Updated: 2023/02/07 14:07:21 by alrobert         ###   ########.fr        #
+#    Updated: 2023/02/15 19:05:15 by alrobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ SRC = ft_atoi.c \
 	ft_strncmp.c \
 	ft_toupper.c \
 	ft_int_to_binary.c \
-	ft_binary_to_int.c
+	ft_binary_to_int.c \
+	ft_get_file_name.c
 BONUS = ft_lstnew.c \
 		ft_lstadd_front.c \
 		ft_lstsize.c \
