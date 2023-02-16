@@ -55,10 +55,10 @@ int	main(void)
 		return (0);
 	vars.i = 0;
 	vars.win = mlx_new_window(vars.mlx, 500, 500, "Pacman");
-	vars.img = mlx_xpm_file_to_image(vars.mlx, "./assets/o_map.xpm", &l, &l);
+	vars.img = mlx_xpm_file_to_image(vars.mlx, "./assets/pacman.xpm", &l, &l);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, vars.i, 0);
 	// mlx_key_hook(vars.win, move, (void *)0);
 	mlx_hook(vars.win, 17, 0, ft_close, &vars);
-	// mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
 	mlx_loop(vars.mlx);
 }

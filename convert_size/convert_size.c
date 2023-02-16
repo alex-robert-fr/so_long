@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <math.h>
 #include "convert_size.h"
 #include "../libft/libft.h"
 #include "../get_next_line/get_next_line.h"
@@ -31,6 +32,9 @@ int		convert_file(char *file_path)
 	if (fd < 0 || read(fd, 0, 0) < 0)
 		return (1);
 	img = read_img(fd);
+	img.new_img = convert_size(&img);
+	printf("C->%i\n", img.info_img.column);
+	printf("R->%i\n", img.info_img.rows);
 	if (generate_file(ft_get_file_name(file_path), img))
 		return (1);
 	return (0);
@@ -172,10 +176,10 @@ int		generate_file(char *file_name, t_img img)
 		i++;
 	}
 	i = 0;
-	while (img.o_img.img[i])
+	while (img.new_img[i])
 	{
 		ft_putchar_fd('"', new_fd);
-		ft_putstr_fd(img.o_img.img[i], new_fd);
+		ft_putstr_fd(img.new_img[i], new_fd);
 		ft_putstr_fd("\"\n", new_fd);
 		i++;
 	}
@@ -184,6 +188,65 @@ int		generate_file(char *file_name, t_img img)
 	return (0);
 }
  
+char	**convert_size(t_img *img)
+{
+	float	c;
+	float	r;
+	int		i;
+	int x;
+	int		i_rows;
+	char 	**line;
+
+	i = 0;
+	c = roundf(32.0f / img->info_img.column);
+	r = roundf(32.0f / img->info_img.rows);
+	printf("Base: %dx%d\nNew: %fx%f\n", img->info_img.column, img->info_img.rows, c, r);
+	printf("MALLOC: %f\n", img->info_img.rows * r);
+	line = ft_calloc((img->info_img.rows * r) + 10, sizeof(char *));
+	i_rows = 0;
+	while (i < img->info_img.rows)
+	{	
+		x = 0;
+		while (x < r)
+		{
+			line[i_rows] = write_by_x(img->o_img.img[i], c, img->info_img);
+			x++;
+			i_rows++;
+		}
+		i++;
+	}
+	img->info_img.column *= c;
+	img->info_img.rows *= r;
+	return (line);
+}
+
+char	*write_by_x(char *str, int num_x, t_info_img info_img)
+{
+	int	i;
+	int x;
+	int i_line;
+	char *line;
+
+	i = 0;
+	i_line = 0;
+	if (!str)
+		return (NULL);
+	line = ft_calloc(roundf(32.0f / info_img.column) * info_img.column + 1, 1);
+	while (i < info_img.column)
+	{
+		x = 0;
+		while (x < num_x)
+		{
+			// ft_putchar_fd(str[i], 1);
+			line[i_line] = str[i];
+			i_line++;
+			x++;
+		}
+		i++;
+	}
+	printf("%s\n", line);
+	return (line);
+}
 // int		size = 3;
 
 // void	convert_size(char *str);
