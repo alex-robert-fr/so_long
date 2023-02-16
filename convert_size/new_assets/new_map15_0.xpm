@@ -1,0 +1,47 @@
+/* XPM */
+static char *img[] = {
+"32 32 11 1",
+"  c black",
+". c red",
+"X c #00008C",
+"o c #0F0FFF",
+"O c #2121FF",
+"+ c #7153DB",
+"@ c #7252FF",
+"# c #959595",
+"$ c #FAB9B0",
+"% c #FCB5FF",
+"& c #DEDEFF",
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+"                                "
+};

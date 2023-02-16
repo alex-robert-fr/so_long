@@ -1,14 +1,39 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
+#include <dirent.h>
 #include "convert_size.h"
 #include "../libft/libft.h"
 #include "../get_next_line/get_next_line.h"
 
 int	main(int argc, char *argv[])
 {
+	char	*str;
+
 	if (argc == 1)
-		printf("Compiled files in directory");
+	{
+		printf("Compiled files in directory\n");
+		DIR *dir;
+		struct dirent *ent;
+		if ((dir = opendir("./assets")) != NULL) {
+		    // Lire chaque entrée du répertoire
+		    while ((ent = readdir(dir)) != NULL) {
+		        // Vérifier que l'entrée est un fichier
+				if (ent->d_name[0] != '.')
+				{
+					str = ft_strjoin("./assets/", ent->d_name);
+					printf("%s\n", str);
+					if (convert_file(str))
+					{
+						printf("ERROR !");
+						return(1);
+					}
+				}
+		    }
+		    closedir(dir);
+		}
+		
+	}
 	else if (argc == 2)
 	{
 		printf("Compiled file\n\n");
@@ -154,7 +179,7 @@ int		generate_file(char *file_name, t_img img)
 	int	new_fd;
 	int	i;
 
-	new_fd = open(ft_strjoin("new_", file_name), O_WRONLY | O_CREAT, 00700);
+	new_fd = open(ft_strjoin("./new_assets/new_", file_name), O_WRONLY | O_CREAT, 00700);
 	if (new_fd < 0)
 		return (1);
 	i = 0;
@@ -247,75 +272,3 @@ char	*write_by_x(char *str, int num_x, t_info_img info_img)
 	printf("%s\n", line);
 	return (line);
 }
-// int		size = 3;
-
-// void	convert_size(char *str);
-// void	write_suite(char c, int start, int end);
-
-// int		main(int argc, char *argv[])
-// {
-// 	int fd;
-// 	int i_size;
-// 	char *str;
-
-// 	str = "";
-// 	fd = open("./map.txt", O_RDONLY);
-// 	while (str)
-// 	{
-// 		str = get_next_line(fd);
-// 		i_size = 0;
-// 		while (i_size < size)
-// 		{
-// 			ft_putchar_fd('"', 1);
-// 			convert_size(str);
-// 			ft_putchar_fd('"', 1);
-// 			ft_putchar_fd(',', 1);
-// 			ft_putchar_fd('\n', 1);
-// 			i_size++;
-// 		}
-		
-// 	}
-// 	close(fd);
-// }
-
-// void	convert_size(char *str)
-// {
-// 	char	caractere;
-// 	int		len_str;
-// 	int		i;
-// 	int		ii;
-// 	int i_size;
-
-// 	if (!str)
-// 		return ;
-// 	i = 0;
-// 	len_str = ft_strlen(str);
-// 	while (str[i])
-// 	{
-// 		i_size = 0;
-// 		caractere = str[i];
-// 		if (caractere == '\n')
-// 		{
-// 			i++;
-// 			continue ;
-// 		}
-// 		ii = i + 1;
-// 		while (str[ii] == caractere)
-// 			ii++;
-// 		write_suite(caractere, i, ii);
-// 		i = ii;
-// 	}
-
-// }
-
-// void	write_suite(char c, int start, int end)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < (end - start) * size)
-// 	{
-// 		ft_putchar_fd(c, 1);
-// 		i++;
-// 	}
-// }

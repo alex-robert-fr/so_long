@@ -14,12 +14,12 @@ static char *faae24bbeb554c2dc4381bd8a2459793whAyF4iddCtXWKsq[] = {
 "% c #FCB5FF",
 "& c #DEDEFF",
 /* pixels */
-"O       ",
-"O       ",
-"O       ",
-"O    OOO",
-"O   O   ",
-"O  O    ",
-"O  O    ",
-"O  O    ",
-};
+"OOOO    ",
+"    OO  ",
+"      O ",
+"OOO   O ",
+"   O   O",
+"    O  O",
+"    O  O",
+"    O  O",
+}; 	
