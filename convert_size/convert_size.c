@@ -10,7 +10,7 @@ int	main(int argc, char *argv[])
 		printf("Compiled files in directory");
 	else if (argc == 2)
 	{
-		printf("Compiled file\n");
+		printf("Compiled file\n\n");
 		if (convert_file(argv[1]))
 		{
 			printf("ERROR !");
@@ -31,10 +31,6 @@ int		convert_file(char *file_path)
 	if (fd < 0 || read(fd, 0, 0) < 0)
 		return (1);
 	img = read_img(fd);
-	if (!img.o_img)
-		return (1);
-	printf("%s\n", file_path);
-	printf("PASS");
 	if (generate_file(ft_get_file_name(file_path), img))
 		return (1);
 	return (0);
@@ -43,86 +39,110 @@ int		convert_file(char *file_path)
 t_img		read_img(int fd)
 {
 	t_img 	img;
+	t_info_img info_img;
+	t_data_img data_img;
 	char	*line;
-	char	*str;
-	int		start_img;
-	int		end_img;
-	int		i_to_start;
+	int		nb_info;
 	int		i;
-	int		i_tab;
 	int 	i_colors;
 
 	i = 0;
-	i_tab = 0;
-	line = "";
-	img.o_img = NULL;
-	img.colors = NULL;
-	start_img = 0;
-	i_to_start = 0;
 	i_colors = 0;
+	nb_info = 1;
+	line = get_next_line(fd);
 	while (line)
 	{
-		i++;
+		if (*line == '"')
+		{
+			if ((line[1] >= '0' && line[1] <= '9') && nb_info == 1)
+			{
+				nb_info++;
+				info_img = get_info_img(line);
+				continue ;
+			}
+			else if (nb_info == 2)
+			{
+				nb_info++;
+				data_img.colors = get_colors_img(fd, info_img);
+				continue ;
+			}
+			else
+			{
+				data_img.img = get_data_img(fd, info_img);
+				break ;
+			}
+		}
 		line = get_next_line(fd);
 		if (!line)
 			break;
-		if (*line == '"')
+	}
+	img.o_img = data_img;
+	img.info_img = info_img;
+	return (img);	
+}
+
+t_info_img		get_info_img(char *src)
+{
+	t_info_img dest;
+	int	i;
+	int	data_number;
+
+	i = 0;
+	data_number = 1;
+	while (src[i] != '\n')
+	{
+		if (src[i] == ' ')
+			data_number++;
+		if (ft_isdigit(src[i]) && (src[i - 1] == ' ' || src[i - 1] == '"'))
 		{
-			if (!i_to_start)
-			{
-				start_img = read_info_img(line, 3);
-				end_img = read_info_img(line, 2);
-				if (start_img < 0)
-				{
-					img.o_img = NULL;
-					return (img);
-				}
-			}
-			if (!img.colors)
-			{
-				img.colors = ft_calloc(start_img + 1, sizeof(char*));
-				if (!img.colors)
-				{
-					img.colors = NULL;
-					return (img);
-				}
-			}
-			if (i_colors < start_img && line[3] == 'c')
-			{
-				str = ft_strtrim(line, "\"\n,");
-				if (!str)
-				{
-					img.o_img = NULL;
-					return (img);
-				}
-				img.colors[i_colors] = str;
-				printf("%s\n", img.colors[i_colors]);
-				i_colors++;
-			}
-			if (!img.o_img)
-			{
-				img.o_img = ft_calloc((end_img - start_img) + 4, sizeof(char*));
-				if (!img.o_img)
-				{
-					img.o_img = NULL;
-					return (img);
-				}
-			}
-			if (i_to_start > start_img)
-			{
-				str = ft_strtrim(line, "\"\n");
-				if (!str)
-				{
-					img.o_img = NULL;
-					return (img);
-				}
-				img.o_img[i_tab] = str;
-				i_tab++;
-			}
-			i_to_start++;
+			if (data_number == 1)
+				dest.column = ft_atoi(src + i);
+			if (data_number == 2)
+				dest.rows = ft_atoi(src + i);
+			if (data_number == 3)
+				dest.colors = ft_atoi(src + i);
+		}
+		i++;
+	}
+	return (dest);
+}
+
+char	**get_colors_img(int fd, t_info_img info_img)
+{
+	char	**colors_img;
+	int	i;
+	
+	colors_img = ft_calloc(info_img.colors + 1, sizeof(char*));
+	i = 0;
+	while (i < info_img.colors)
+	{
+		colors_img[i] = ft_strtrim(get_next_line(fd), "\"\n,");
+
+		printf("IN COLORS=> %s\n",colors_img[i]);
+		i++;
+	}
+	return (colors_img);
+}
+
+char	**get_data_img(int fd, t_info_img info_img)
+{
+	char	**data_img;
+	char	*str;
+	int		i;
+
+	data_img = ft_calloc(info_img.rows + 1, sizeof(char*));
+	i = 0;
+	while (i < info_img.rows)
+	{
+		str = get_next_line(fd);
+		if (*str == '"')
+		{
+			data_img[i] = ft_strtrim(str, "\"\n,");
+			printf("IN IMG=> %s\n",data_img[i]);
+			i++;
 		}
 	}
-	return (img);	
+	return (data_img);
 }
 
 int		generate_file(char *file_name, t_img img)
@@ -135,47 +155,35 @@ int		generate_file(char *file_name, t_img img)
 		return (1);
 	i = 0;
 	ft_putstr_fd("/* XPM */\nstatic char *img[] = {\n", new_fd);
-	while (img.colors[i])
+	ft_putchar_fd('"', new_fd);
+	ft_putnbr_fd(img.info_img.column, new_fd);
+	ft_putchar_fd(' ', new_fd);
+	ft_putnbr_fd(img.info_img.rows, new_fd);
+	ft_putchar_fd(' ', new_fd);
+	ft_putnbr_fd(img.info_img.colors, new_fd);
+	ft_putchar_fd(' ', new_fd);
+	ft_putchar_fd('1', new_fd);
+	ft_putstr_fd("\",\n", new_fd);
+	while (img.o_img.colors[i])
 	{
 		ft_putchar_fd('"', new_fd);
-		ft_putstr_fd(img.colors[i], new_fd);
+		ft_putstr_fd(img.o_img.colors[i], new_fd);
 		ft_putstr_fd("\",\n", new_fd);
 		i++;
 	}
 	i = 0;
-	while (img.o_img[i])
+	while (img.o_img.img[i])
 	{
 		ft_putchar_fd('"', new_fd);
-		ft_putstr_fd(img.o_img[i], new_fd);
-		ft_putstr_fd("\",\n", new_fd);
+		ft_putstr_fd(img.o_img.img[i], new_fd);
+		ft_putstr_fd("\"\n", new_fd);
 		i++;
 	}
 	ft_putstr_fd("};", new_fd);
 	close(new_fd);
 	return (0);
 }
-
-// int		generate_img()
-
-int		read_info_img(char *info_str, int num_info)
-{
-	int	info_img;
-	int	count_space;
-	int i;
-
-	i = 0;
-	info_img = 0;
-	count_space = 0;
-	while (info_str[i] && !info_img)
-	{
-		if (info_str[i] == ' ')
-			count_space++;
-		i++;
-		if (count_space == (num_info - 1))
-			info_img = ft_atoi(info_str + i);
-	}
-	return (info_img);
-}
+ 
 // int		size = 3;
 
 // void	convert_size(char *str);

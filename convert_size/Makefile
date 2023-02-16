@@ -9,7 +9,7 @@ GNL_SRC = ../get_next_line/get_next_line.c \
 all: $(LIBFT_NAME) $(NAME)
 
 $(NAME):
-	$(CC) $(SRC) $(GNL_SRC) $(LIBFT_PATH)/$(LIBFT_NAME) -o $@.out -g
+	$(CC) $(SRC) $(GNL_SRC) $(LIBFT_PATH)/$(LIBFT_NAME) -o $@.out -g -Wall -Wextra -Werror
 	
 $(LIBFT_NAME):
 	make -C $(LIBFT_PATH)
