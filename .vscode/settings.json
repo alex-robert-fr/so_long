@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"fcntl.h": "c"
+		"fcntl.h": "c",
+		"window.h": "c",
+		"map.h": "c",
+		"stdio.h": "c"
 	}
 }

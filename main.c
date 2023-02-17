@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <mlx.h>
+#include "./map/map.h"
+
+int	start(char *map_file);
 
 typedef struct s_vars
 {
@@ -42,23 +44,52 @@ int		render_next_frame(t_vars *pacman)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	t_vars	vars;
-	int		h;
-	int		l;
+	if (argc == 2)
+	{
+		if (start(argv[1]))
+		{
+			printf("Error\n");
+			return (0);
+		}
+		printf("With map");
+	}
+	else
+		printf("Error\n");
+	// t_vars	vars;
+	// int		h;
+	// int		l;
 
-	h = 242;
-	l = 429;
-	vars.mlx = mlx_init();
-	if (!vars.mlx)
-		return (0);
-	vars.i = 0;
-	vars.win = mlx_new_window(vars.mlx, 500, 500, "Pacman");
-	vars.img = mlx_xpm_file_to_image(vars.mlx, "./assets/pacman.xpm", &l, &l);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, vars.i, 0);
-	// mlx_key_hook(vars.win, move, (void *)0);
-	mlx_hook(vars.win, 17, 0, ft_close, &vars);
-	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
-	mlx_loop(vars.mlx);
+	// h = 242;
+	// l = 429;
+	// vars.mlx = mlx_init();
+	// if (!vars.mlx)
+	// 	return (0);
+	// vars.i = 0;
+	// vars.win = mlx_new_window(vars.mlx, 500, 500, "Pacman");
+	// vars.img = mlx_xpm_file_to_image(vars.mlx, "./convert_size/new_assets/new_map9_0.xpm", &l, &l);
+	// mlx_put_image_to_window(vars.mlx, vars.win, vars.img, vars.i, 0);
+	// // mlx_key_hook(vars.win, move, (void *)0);
+	// mlx_hook(vars.win, 17, 0, ft_close, &vars);
+	// // mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+	// mlx_loop(vars.mlx);
+}
+
+int	start(char *map_file)
+{
+	t_map map;
+	t_window win;
+	
+	map = check_file_map(map_file);
+	 if (map.error_code)
+	 	return (1);
+	printf("TEST!");
+	win = create_window(map.info_map.columns * 32, map.info_map.rows * 32, "Pacman");
+	if (win.error_code)
+		return (1);
+	generate_map(map.map, win, map.info_map);
+	mlx_hook(win.win, 17, 0, ft_close, &win);
+	mlx_loop(win.mlx);
+	return (0);
 }

@@ -16,9 +16,7 @@ int	main(int argc, char *argv[])
 		DIR *dir;
 		struct dirent *ent;
 		if ((dir = opendir("./assets")) != NULL) {
-		    // Lire chaque entrée du répertoire
 		    while ((ent = readdir(dir)) != NULL) {
-		        // Vérifier que l'entrée est un fichier
 				if (ent->d_name[0] != '.')
 				{
 					str = ft_strjoin("./assets/", ent->d_name);

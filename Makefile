@@ -1,6 +1,9 @@
 NAME = so_long
 CC = clang
 SRC = ./main.c
+MAP_SRC = ./map/check_map.c \
+			./map/generate_map.c
+WIN_SRC = ./window/window.c
 LIBFT_PATH = libft
 LIBFT_NAME = libft.a
 GNL_SRC = get_next_line/get_next_line.c \
@@ -9,7 +12,7 @@ GNL_SRC = get_next_line/get_next_line.c \
 all: $(LIBFT_NAME) $(NAME)
 
 $(NAME):
-	$(CC) -Iminilibx-linux/ $(SRC) -Lminilibx-linux -lmlx_Linux -L/usr/lib -lXext -lX11 $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME) -g
+	$(CC) -Iminilibx-linux/ $(SRC) $(MAP_SRC) $(WIN_SRC) $(GNL_SRC) -Lminilibx-linux -lmlx_Linux -L/usr/lib -lXext -lX11 $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME) -g
 	
 $(LIBFT_NAME):
 	make -C $(LIBFT_PATH)
