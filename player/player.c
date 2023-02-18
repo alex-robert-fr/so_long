@@ -20,7 +20,7 @@ void	*import_player(t_window win, char *path)
 	void	*player;
 	int		size;
 
-	size = 22;
+	size = 33;
 	player = mlx_xpm_file_to_image(win.mlx, path, &size, &size);
 	return (player);
 }
@@ -44,13 +44,17 @@ void	collision(t_player *player, t_map map)
 {
 	int	current_x;
 	int	current_y;
-
+	ft_putstr_fd("X: ",1);
+	ft_putnbr_fd(player->position.x / 24, 1);
+	ft_putstr_fd("Y: ",1);
+	ft_putnbr_fd(player->position.y / 24, 1);
+	ft_putstr_fd("\n",1);
 	if (player->direction.x > 0)
-		current_x = (player->position.x + 22) / 24;
+		current_x = (player->position.x + 20) / 24;
 	if (player->direction.x <= 0)
 		current_x = (player->position.x) / 24;
 	if (player->direction.y > 0)
-		current_y = (player->position.y + 22) / 24;
+		current_y = (player->position.y + 20) / 24;
 	if (player->direction.y <= 0)
 		current_y = player->position.y / 24;
 	if ((player->direction.x < 0 && map.map[current_y][current_x] == '1') || (player->direction.x > 0 && map.map[current_y][current_x] == '1'))

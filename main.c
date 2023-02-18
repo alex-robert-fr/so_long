@@ -108,7 +108,7 @@ int		render_next_frame(t_game *game)
 
 	size = 22;
 	game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman.xpm", &size, &size);
-	mlx_put_image_to_window(game->win.mlx,game->win.win, game->img, game->player.position.x, game->player.position.y);
+	mlx_put_image_to_window(game->win.mlx,game->win.win, game->img, game->player.position.x - 5, game->player.position.y - 5);
 	mlx_destroy_image(game->win.mlx, game->img);
 	move(&game->player);
 	collision(&game->player, game->map);

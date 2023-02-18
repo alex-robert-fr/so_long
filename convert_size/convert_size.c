@@ -6,6 +6,8 @@
 #include "../libft/libft.h"
 #include "../get_next_line/get_next_line.h"
 
+int	size;
+
 int	main(int argc, char *argv[])
 {
 	char	*str;
@@ -13,6 +15,7 @@ int	main(int argc, char *argv[])
 	if (argc == 1)
 	{
 		printf("Compiled files in directory\n");
+		size = 24;
 		DIR *dir;
 		struct dirent *ent;
 		if ((dir = opendir("./assets")) != NULL) {
@@ -32,9 +35,10 @@ int	main(int argc, char *argv[])
 		}
 		
 	}
-	else if (argc == 2)
+	else if (argc == 3)
 	{
 		printf("Compiled file\n\n");
+		size = ft_atoi(argv[2]);
 		if (convert_file(argv[1]))
 		{
 			printf("ERROR !");
@@ -221,8 +225,8 @@ char	**convert_size(t_img *img)
 	char 	**line;
 
 	i = 0;
-	c = roundf(24.0f / img->info_img.column);
-	r = roundf(24.0f / img->info_img.rows);
+	c = roundf((float)size / img->info_img.column);
+	r = roundf((float)size / img->info_img.rows);
 	printf("Base: %dx%d\nNew: %fx%f\n", img->info_img.column, img->info_img.rows, c, r);
 	printf("MALLOC: %f\n", img->info_img.rows * r);
 	line = ft_calloc((img->info_img.rows * r) + 10, sizeof(char *));
@@ -254,7 +258,7 @@ char	*write_by_x(char *str, int num_x, t_info_img info_img)
 	i_line = 0;
 	if (!str)
 		return (NULL);
-	line = ft_calloc(roundf(24.0f / info_img.column) * info_img.column + 1, 1);
+	line = ft_calloc(roundf((float)size / info_img.column) * info_img.column + 1, 1);
 	while (i < info_img.column)
 	{
 		x = 0;
