@@ -221,8 +221,8 @@ char	**convert_size(t_img *img)
 	char 	**line;
 
 	i = 0;
-	c = roundf(32.0f / img->info_img.column);
-	r = roundf(32.0f / img->info_img.rows);
+	c = roundf(24.0f / img->info_img.column);
+	r = roundf(24.0f / img->info_img.rows);
 	printf("Base: %dx%d\nNew: %fx%f\n", img->info_img.column, img->info_img.rows, c, r);
 	printf("MALLOC: %f\n", img->info_img.rows * r);
 	line = ft_calloc((img->info_img.rows * r) + 10, sizeof(char *));
@@ -254,7 +254,7 @@ char	*write_by_x(char *str, int num_x, t_info_img info_img)
 	i_line = 0;
 	if (!str)
 		return (NULL);
-	line = ft_calloc(roundf(32.0f / info_img.column) * info_img.column + 1, 1);
+	line = ft_calloc(roundf(24.0f / info_img.column) * info_img.column + 1, 1);
 	while (i < info_img.column)
 	{
 		x = 0;

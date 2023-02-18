@@ -3,6 +3,8 @@
 		"fcntl.h": "c",
 		"window.h": "c",
 		"map.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"player.h": "c",
+		"libft.h": "c"
 	}
 }

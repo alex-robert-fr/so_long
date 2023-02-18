@@ -1,6 +1,6 @@
 /* XPM */
 static char *img[] = {
-"32 32 11 1",
+"24 24 11 1",
 "  c black",
 ". c red",
 "X c #00008C",
@@ -12,36 +12,28 @@ static char *img[] = {
 "$ c #FAB9B0",
 "% c #FCB5FF",
 "& c #DEDEFF",
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"                                "
-"OOOOOOOOOOOOOOOO                "
-"OOOOOOOOOOOOOOOO                "
-"OOOOOOOOOOOOOOOO                "
-"OOOOOOOOOOOOOOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"            OOOO                "
-"OOOO        OOOO                "
-"OOOO        OOOO                "
-"OOOO        OOOO                "
-"OOOO        OOOO                "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"                        "
+"OOOOOOOOOOOO            "
+"OOOOOOOOOOOO            "
+"OOOOOOOOOOOO            "
+"         OOO            "
+"         OOO            "
+"         OOO            "
+"         OOO            "
+"         OOO            "
+"         OOO            "
+"OOO      OOO            "
+"OOO      OOO            "
+"OOO      OOO            "
 };

@@ -1,3 +1,6 @@
+#ifndef	MAP_H
+# define MAP_H
+
 #include <stdio.h>
 #include <fcntl.h>
 #include "../get_next_line/get_next_line.h"
@@ -47,3 +50,4 @@ t_info_map		check_map_and_get_info(char *map_file);
 char			**file_to_array(char *map_file, t_info_map info_map);
 void			generate_map(char **map, t_window win, t_info_map info_map);
 t_sprites		import_img(t_window win);
+#endif
