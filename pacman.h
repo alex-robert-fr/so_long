@@ -1,12 +1,4 @@
-#include "./player/player.h"
-
-typedef struct s_game
-{
-	t_window	win;
-	t_player	player;
-	t_map		map;
-	void		*img;
-}	t_game;
-
-
+#ifndef PACMAN_H
+# define PACMAN_H
 int		render_next_frame(t_game *game);
+#endif
