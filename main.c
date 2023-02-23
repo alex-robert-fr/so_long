@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 #include "./engine/time.h"
 #include "pacman.h"
@@ -58,10 +59,13 @@ int	start(char *map_file)
 	win = create_window(map.info_map.columns * 24, map.info_map.rows * 24, "Pacman");
 	if (win.error_code)
 		return (1);
-	generate_map(map.map, win, map.info_map);
+	game.gost = spawm_gost(win, 13, 15);
+	generate_map(map.map, win, map.info_map, game);
 	game.player = spawn_player(win, 1, 1);
 	game.win = win;
 	mlx_hook(win.win, 17, 0, ft_close, &win);
+	game.time.previous_time = clock();
+	game.time.lag = 0;
 	mlx_loop_hook(win.mlx, render_next_frame, &game);
 	mlx_key_hook(game.win.win, keyboard, &game.player);
 	mlx_loop(win.mlx);
@@ -74,11 +78,19 @@ int		render_next_frame(t_game *game)
 
 	add_time(&game->time);
 	loop_time(game);
-	size = 22;
-	game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman.xpm", &size, &size);
+	size = -22;
+
+	if (game->player.direction.x > 0)
+		game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman_r_0.xpm", &size, &size);
+	else if (game->player.direction.x < 0)
+		game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman_l_0.xpm", &size, &size);
+	else if (game->player.direction.y > 0)
+		game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman_d_0.xpm", &size, &size);
+	else if (game->player.direction.y < 0)
+		game->img = mlx_xpm_file_to_image(game->win.mlx, "./convert_size/new_assets/new_pacman_u_0.xpm", &size, &size);
 	mlx_put_image_to_window(game->win.mlx,game->win.win, game->img, game->player.position.x - 5, game->player.position.y - 5);
 	mlx_destroy_image(game->win.mlx, game->img);
 	//move(&game->player);
-	usleep(1500);
+	//usleep(1);
 	return (0);
 }

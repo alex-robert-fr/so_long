@@ -5,6 +5,9 @@
 #include <fcntl.h>
 #include "../get_next_line/get_next_line.h"
 #include "../window/window.h"
+#include "../gosts/gost.h"
+#include "../player/player.h"
+#include "../engine/time.h"
 
 typedef struct s_info_map
 {
@@ -42,12 +45,13 @@ typedef struct s_sprites
 	void	*sp13_0;
 	void	*sp14_0;
 	void	*spxxx;
+	void	*gost;
 }	t_sprites;
 
 
 t_map			check_file_map(char *map_file);
 t_info_map		check_map_and_get_info(char *map_file);
 char			**file_to_array(char *map_file, t_info_map info_map);
-void			generate_map(char **map, t_window win, t_info_map info_map);
+void			generate_map(char **map, t_window win, t_info_map info_map, t_game game);
 t_sprites		import_img(t_window win);
 #endif

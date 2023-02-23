@@ -1,4 +1,6 @@
 #include <math.h>
+#include <time.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "player.h"
 
@@ -30,23 +32,42 @@ void	*import_player(t_window win, char *path)
 
 void	move(t_player *player, t_map map)
 {
-	//float	x_pos;
-	//float	y_pos;
-//
-	//x_pos = ceilf((float)player->position.x / 24);
-	//y_pos = ceilf((float)player->position.y / 24);
+	float	x_pos;
+	float	y_pos;
+
+	x_pos = (float)player->position.x / 24;
+	y_pos = (float)player->position.y / 24;
 	check_direction(player, map);
+	printf("TIME:::: %lu <---------XX: %f, YY; %f => %c\n",(unsigned long)time(NULL), x_pos + 1, y_pos, map.map[(int)y_pos][(int)x_pos + 1]);
+	fflush(stdout);
 	if (player->direction.x > 0)
 	{
-//		if (map.map[(int)y_pos][(int)x_pos + 1] == '1' && ((float)player->position.y / 24) == ceilf((float)player->position.y / 24))
-		player->position.x += player->speed;
+		if (map.map[(int)y_pos][(int)x_pos + 1] == '1')
+			player->position.x += 0;
+		else
+			player->position.x += player->speed;
 	}
 	if (player->direction.x < 0)
-		player->position.x -= player->speed;
+	{
+		if (map.map[(int)y_pos][(int)ceilf(x_pos) - 1] == '1')
+			player->position.x += 0;
+		else
+			player->position.x -= player->speed;
+	}
 	if (player->direction.y > 0)
-		player->position.y += player->speed;
+	{
+		if (map.map[(int)y_pos + 1][(int)x_pos] == '1')
+			player->position.y += 0;
+		else
+			player->position.y += player->speed;
+	}
 	if (player->direction.y < 0)
-		player->position.y -= player->speed;
+	{
+		if (map.map[(int)ceilf(y_pos) - 1][(int)x_pos] == '1')
+			player->position.y += 0;
+		else
+			player->position.y -= player->speed;
+	}
 	// ft_putstr_fd("POS X: ",1);
 	// ft_putnbr_fd((float)player->position.x / 24,1);
 	// ft_putstr_fd("\n",1);

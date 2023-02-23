@@ -1,6 +1,6 @@
 #include "map.h"
 
-void			generate_map(char **map, t_window win, t_info_map info_map)
+void			generate_map(char **map, t_window win, t_info_map info_map, t_game game)
 {
 	t_sprites	imgs;
 	int		x;
@@ -121,6 +121,10 @@ void			generate_map(char **map, t_window win, t_info_map info_map)
 					mlx_put_image_to_window(win.mlx, win.win, imgs.spxxx, (x * 24), (y * 24));
 				}
 			}
+			else if (map[y][x] == 'G')
+			{
+				mlx_put_image_to_window(win.mlx, win.win, game.gost.sprite, game.gost.position.x, game.gost.position.y);
+			}
 			ft_putchar_fd('[', 1);
 			ft_putnbr_fd(y, 1);
 			ft_putchar_fd(',', 1);
@@ -137,8 +141,10 @@ t_sprites		import_img(t_window win)
 {
 	t_sprites sprites;
 	int	size;
+	int	g_size;
 
 	size = 24;
+	g_size = 33;
 	sprites.sp0_0 = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_map0_0.xpm",&size, &size);
 	sprites.sp1_0 = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_map1_0.xpm", &size, &size);
 	sprites.sp2_0 = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_map2_0.xpm", &size, &size);
@@ -159,5 +165,6 @@ t_sprites		import_img(t_window win)
 	sprites.sp13_0 = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_map13_0.xpm", &size, &size);
 	sprites.sp14_0 = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_map14_0.xpm", &size, &size);
 	sprites.spxxx = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_no_valid.xpm", &size, &size);
+	sprites.gost = mlx_xpm_file_to_image(win.mlx, "./convert_size/new_assets/new_gost.xpm", &g_size, &g_size);
 	return (sprites);
 }
