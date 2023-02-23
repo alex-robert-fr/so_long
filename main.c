@@ -79,6 +79,6 @@ int		render_next_frame(t_game *game)
 	mlx_put_image_to_window(game->win.mlx,game->win.win, game->img, game->player.position.x - 5, game->player.position.y - 5);
 	mlx_destroy_image(game->win.mlx, game->img);
 	//move(&game->player);
-	usleep(1000);
+	usleep(1500);
 	return (0);
 }

@@ -30,9 +30,17 @@ void	*import_player(t_window win, char *path)
 
 void	move(t_player *player, t_map map)
 {
+	//float	x_pos;
+	//float	y_pos;
+//
+	//x_pos = ceilf((float)player->position.x / 24);
+	//y_pos = ceilf((float)player->position.y / 24);
 	check_direction(player, map);
 	if (player->direction.x > 0)
+	{
+//		if (map.map[(int)y_pos][(int)x_pos + 1] == '1' && ((float)player->position.y / 24) == ceilf((float)player->position.y / 24))
 		player->position.x += player->speed;
+	}
 	if (player->direction.x < 0)
 		player->position.x -= player->speed;
 	if (player->direction.y > 0)
@@ -51,20 +59,50 @@ int		check_direction(t_player *player, t_map map)
 
 	x_pos = ceilf((float)player->position.x / 24);
 	y_pos = ceilf((float)player->position.y / 24);
-	if ((float)player->position.x / 24 == ceilf((float)player->position.x / 24))
+	if ((float)player->position.x / 24 == ceilf((float)player->position.x / 24) - 1)
 		printf("\033[36mTEST ===> %f == %f\033[0m\n", (float)player->position.x / 24, ceilf((float)player->position.x / 24));
-	printf("%f < %f\n", (float)player->position.x / 24, ceilf((float)player->position.x / 24) );
+//	printf("%f < %f\n", (float)player->position.x / 24, ceilf((float)player->position.x / 24) );
 	printf("X: %f, Y; %f\n", x_pos, y_pos);
 	printf("X: %i, Y; %i => %c\n", (int)x_pos, (int)y_pos, map.map[(int)y_pos + 1][(int)x_pos - 1]);
 	fflush(stdout);
 	if (player->next_direction.y > 0)
 	{
 		ft_putstr_fd("\033[31mPASS NEXT\033[0m\n", 1);
-		if (map.map[(int)y_pos + 1][(int)x_pos - 1] == '0' && ((float)player->position.x / 24) - 1 == ceilf((float)player->position.x / 24) - 1)
+		if (map.map[(int)y_pos + 1][(int)x_pos] == '0' && ((float)player->position.x / 24) == ceilf((float)player->position.x / 24))
 		{
 			ft_putstr_fd("DIRECTIOHN\n",1);
 			player->direction.y = 1;
 			player->direction.x = 0;
+		}
+	}
+	if (player->next_direction.x > 0)
+	{
+		ft_putstr_fd("YOOO", 1);
+		if (map.map[(int)y_pos][(int)x_pos + 1] == '0' && ((float)player->position.y / 24) == ceilf((float)player->position.y / 24))
+		{
+			ft_putstr_fd("ALEX\n",1);
+			player->direction.y = 0;
+			player->direction.x = 1;
+		}
+	}
+	if (player->next_direction.y < 0)
+	{
+		ft_putstr_fd("YOOO", 1);
+		if (map.map[(int)y_pos - 1][(int)x_pos] == '0' && ((float)player->position.x / 24) == ceilf((float)player->position.x / 24))
+		{
+			ft_putstr_fd("ALEX\n",1);
+			player->direction.y = -1;
+			player->direction.x = 0;
+		}
+	}
+	if (player->next_direction.x < 0)
+	{
+		ft_putstr_fd("YOOO", 1);
+		if (map.map[(int)y_pos][(int)x_pos - 1] == '0' && ((float)player->position.y / 24) == ceilf((float)player->position.y / 24))
+		{
+			ft_putstr_fd("ALEX\n",1);
+			player->direction.y = 0;
+			player->direction.x = -1;
 		}
 	}
 	return (0);
